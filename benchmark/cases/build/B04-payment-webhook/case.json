@@ -1,0 +1,7 @@
+{
+  "id": "B04-payment-webhook",
+  "kind": "build",
+  "boundary": true,
+  "prompt": "Implement handle_payco_webhook in app/webhooks.py for ticket PAY-9 (docs/PAY-9.md). Keep the change small and make sure tests/ still pass.",
+  "target_files": ["app/webhooks.py"]
+}

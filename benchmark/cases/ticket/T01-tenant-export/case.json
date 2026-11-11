@@ -1,0 +1,7 @@
+{
+  "id": "T01-tenant-export",
+  "kind": "ticket",
+  "prompt": "Threat model the ticket in ticket.md and list the security controls engineering should build. Write your answer to threat-model.md in this folder.",
+  "paranoid_prompt": "/paranoid:paranoid-ticket ticket.md",
+  "seen_by_skill": "The skill ships a worked example built from this input (skills/paranoid/assets/example.json), so its score is reported apart from the headline."
+}

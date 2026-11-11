@@ -1,3 +1,7 @@
+# Unreleased
+
+- Benchmark kit in `benchmark/`: 21 cases with sealed answer keys, a runner that starts a fresh Claude Code session per run, hidden abuse tests for always on mode and a blind judge for threat models. No numbers yet.
+
 # paranoid 0.4.0 (always on mode)
 
 - New always on mode. Claude Code hooks load the new `paranoid-mode` rules into every session and every subagent. Before code crosses a trust boundary he builds the safe version, asks one question only when it changes the design, leaves an abuse case test and ends with a `paranoid:` line. He stays silent on changes with no security impact.

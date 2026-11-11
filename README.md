@@ -59,7 +59,7 @@ He doesn't invent files, infrastructure or test results. A check that didn't run
 
 ## Numbers
 
-Not published yet. The benchmark runs the same agent with and without paranoid on fixed tickets and repositories that have planted flaws. It counts the flaws found, the facts invented and the controls that come with real done when checks. The method is in [docs/benchmark-plan.md](docs/benchmark-plan.md). Until it runs, the [verification record](docs/verification.md) shows what has and hasn't been tested.
+Not published yet. The [benchmark kit](benchmark/README.md) runs the same agent with and without paranoid on 21 fixed cases. Seven are small build tasks with hidden abuse tests, ten are tickets and four are repositories with planted flaws. It counts the code that ships secure, the flaws found, the facts invented and the controls that come with real done when checks. Until it runs, the [verification record](docs/verification.md) shows what has and hasn't been tested.
 
 ## Install
 

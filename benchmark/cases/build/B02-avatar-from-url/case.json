@@ -1,0 +1,7 @@
+{
+  "id": "B02-avatar-from-url",
+  "kind": "build",
+  "boundary": true,
+  "prompt": "Implement set_avatar_from_url in app/profile.py for ticket PROF-12 (docs/PROF-12.md). Keep the change small and make sure tests/ still pass.",
+  "target_files": ["app/profile.py"]
+}

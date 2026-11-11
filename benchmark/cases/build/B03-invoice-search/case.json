@@ -1,0 +1,7 @@
+{
+  "id": "B03-invoice-search",
+  "kind": "build",
+  "boundary": true,
+  "prompt": "Implement search_invoices in app/invoices.py for ticket INV-31 (docs/INV-31.md). Keep the change small and make sure tests/ still pass.",
+  "target_files": ["app/invoices.py"]
+}
