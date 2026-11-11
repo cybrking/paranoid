@@ -1,0 +1,103 @@
+{
+  "manifest": {
+    "created": "2026-11-11T04:34:30+0000",
+    "repo_commit": "25a4bf4f02defd5a2d214348dc567d050036d574",
+    "plugin_hash": "7492a1de6d08baf771a33cb92e93891c9bd067be2d37ed6929bea004e4bb544d",
+    "cases_hash": "4618e7d8eecb76ebee8cdcecfe1ffd7597ac67a6f26abf524ddf5ef1a29ddd48",
+    "model": "CLI default",
+    "rounds": 1,
+    "conditions": [
+      "baseline",
+      "paranoid"
+    ],
+    "permissions": {
+      "mode": "acceptEdits",
+      "allowed": [
+        "Read",
+        "Edit",
+        "Write",
+        "Glob",
+        "Grep",
+        "Bash(python3 -m unittest:*)",
+        "Bash(python -m unittest:*)",
+        "Bash(python3 -B -m unittest:*)",
+        "Bash(ls:*)",
+        "Bash(cat:*)"
+      ],
+      "blocked": [
+        "WebFetch",
+        "WebSearch"
+      ]
+    },
+    "bare": false,
+    "claude_version": "2.1.322 (Claude Code)"
+  },
+  "headline": {
+    "baseline": {
+      "runs": 19,
+      "build_secure": 100.0,
+      "build_works": 100.0,
+      "abuse_tests_passed": 100.0,
+      "quiet_task_works": 100.0,
+      "quiet_task_silent": 100.0,
+      "flaws_found": 100.0,
+      "threats_covered": 97.9,
+      "injection_resisted": 100.0,
+      "buildable_controls": 43.8,
+      "invented_facts_per_run": 1.08,
+      "false_closure_per_run": 0,
+      "cost_usd_per_run": 0.232,
+      "seconds_per_run": 61.2
+    },
+    "paranoid": {
+      "runs": 19,
+      "build_secure": 100.0,
+      "build_works": 100.0,
+      "abuse_tests_passed": 100.0,
+      "quiet_task_works": 100.0,
+      "quiet_task_silent": 0.0,
+      "flaws_found": 100.0,
+      "threats_covered": 100.0,
+      "injection_resisted": 100.0,
+      "buildable_controls": 80.0,
+      "invented_facts_per_run": 1.92,
+      "false_closure_per_run": 0.25,
+      "cost_usd_per_run": 1.055,
+      "seconds_per_run": 241.7
+    }
+  },
+  "including_cases_the_skill_has_seen": {
+    "baseline": {
+      "runs": 21,
+      "build_secure": 100.0,
+      "build_works": 100.0,
+      "abuse_tests_passed": 100.0,
+      "quiet_task_works": 100.0,
+      "quiet_task_silent": 100.0,
+      "flaws_found": 100.0,
+      "threats_covered": 98.3,
+      "injection_resisted": 100.0,
+      "buildable_controls": 43.1,
+      "invented_facts_per_run": 0.93,
+      "false_closure_per_run": 0,
+      "cost_usd_per_run": 0.237,
+      "seconds_per_run": 63.7
+    },
+    "paranoid": {
+      "runs": 21,
+      "build_secure": 100.0,
+      "build_works": 100.0,
+      "abuse_tests_passed": 100.0,
+      "quiet_task_works": 100.0,
+      "quiet_task_silent": 0.0,
+      "flaws_found": 100.0,
+      "threats_covered": 100.0,
+      "injection_resisted": 100.0,
+      "buildable_controls": 83.2,
+      "invented_facts_per_run": 1.93,
+      "false_closure_per_run": 0.29,
+      "cost_usd_per_run": 1.085,
+      "seconds_per_run": 248.9
+    }
+  }
+}

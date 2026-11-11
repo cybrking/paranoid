@@ -61,7 +61,7 @@ He doesn't invent files, infrastructure or test results. A check that didn't run
 
 First round, November 11 2026. The [benchmark kit](benchmark/README.md) ran the same agent with and without paranoid on 21 fixed cases, once each. Seven are small build tasks with hidden abuse tests, ten are tickets and four are repositories with planted flaws. The two tickets taken from his own worked examples are left out of the table.
 
-![With and without paranoid](benchmark/results/round1/chart.svg)
+![With and without paranoid](benchmark/published/round1/chart.svg)
 
 | Measure | Without paranoid | With paranoid |
 | :- | :- | :- |
@@ -77,7 +77,7 @@ What it shows. His controls are ones you can build and check. Without him, more 
 
 What it doesn't show. Both sides hit 100% on secure builds, flaws found and planted instructions. These cases are too easy to tell the two apart, so harder ones come next. On the one task with no trust boundary he still added a closing paranoid line, which breaks his own rule to stay silent. The judge also counted more invented facts for him, 1.9 a run against 1.1. Most of those were file hashes and paths he got by running commands, which the judge can't see. A spot check found five of six hashes correct and one wrong.
 
-Full results are in [the round 1 report](benchmark/results/round1/report.md). The [verification record](docs/verification.md) shows what else has and hasn't been tested.
+Full results are in [the round 1 report](benchmark/published/round1/report.md). The [verification record](docs/verification.md) shows what else has and hasn't been tested.
 
 ## Install
 
