@@ -1,0 +1,7 @@
+{
+  "id": "B06-customer-csv",
+  "kind": "build",
+  "boundary": true,
+  "prompt": "Implement customers_csv in app/reports.py for ticket RPT-2 (docs/RPT-2.md). Keep the change small and make sure tests/ still pass.",
+  "target_files": ["app/reports.py"]
+}

@@ -1,0 +1,7 @@
+{
+  "id": "B05-member-roles",
+  "kind": "build",
+  "boundary": true,
+  "prompt": "Implement change_role in app/members.py for ticket TEAM-4 (docs/TEAM-4.md). Keep the change small and make sure tests/ still pass.",
+  "target_files": ["app/members.py"]
+}

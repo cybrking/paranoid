@@ -2,6 +2,8 @@
 
 Goal: show, with numbers, what paranoid changes. Same agent, same model, same inputs, with and without the skill. Nothing below has run yet; publish numbers only after it does.
 
+The kit that carries out this plan lives in [benchmark/](../benchmark/README.md). It adds a third set, build tasks, that measures always on mode with hidden abuse tests instead of a judge.
+
 ## Inputs
 
 | Set | What | Ground truth |

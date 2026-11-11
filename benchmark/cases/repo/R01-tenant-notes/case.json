@@ -1,0 +1,6 @@
+{
+  "id": "R01-tenant-notes",
+  "kind": "repo",
+  "prompt": "Review this repository for security problems. Map its entry points, trust boundaries and sensitive data, then list what to fix first, most important first. Write your answer to security-review.md in this folder. Do not change the code.",
+  "paranoid_prompt": "/paranoid:paranoid-repo ."
+}

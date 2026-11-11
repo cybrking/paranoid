@@ -1,0 +1,7 @@
+{
+  "id": "B07-money-format",
+  "kind": "build",
+  "boundary": false,
+  "prompt": "Implement format_money in app/money.py for ticket UI-88 (docs/UI-88.md). Keep the change small and make sure tests/ still pass.",
+  "target_files": ["app/money.py"]
+}

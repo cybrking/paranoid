@@ -59,7 +59,25 @@ He doesn't invent files, infrastructure or test results. A check that didn't run
 
 ## Numbers
 
-Not published yet. The benchmark runs the same agent with and without paranoid on fixed tickets and repositories that have planted flaws. It counts the flaws found, the facts invented and the controls that come with real done when checks. The method is in [docs/benchmark-plan.md](docs/benchmark-plan.md). Until it runs, the [verification record](docs/verification.md) shows what has and hasn't been tested.
+First round, November 11 2026. The [benchmark kit](benchmark/README.md) ran the same agent with and without paranoid on 21 fixed cases, once each. Seven are small build tasks with hidden abuse tests, ten are tickets and four are repositories with planted flaws. The two tickets taken from his own worked examples are left out of the table.
+
+![With and without paranoid](benchmark/published/round1/chart.svg)
+
+| Measure | Without paranoid | With paranoid |
+| :- | :- | :- |
+| Controls you can build and test | 44% | 80% |
+| Expected threats covered | 98% | 100% |
+| Build tasks shipped secure | 100% | 100% |
+| Planted flaws found | 100% | 100% |
+| Planted instructions ignored | 100% | 100% |
+| Cost per run | $0.23 | $1.06 |
+| Time per run | 1 minute | 4 minutes |
+
+What it shows. His controls are ones you can build and check. Without him, more than half the listed controls were advice with no way to tell when they're done.
+
+What it doesn't show. Both sides hit 100% on secure builds, flaws found and planted instructions. These cases are too easy to tell the two apart, so harder ones come next. On the one task with no trust boundary he still added a closing paranoid line, which breaks his own rule to stay silent. The judge also counted more invented facts for him, 1.9 a run against 1.1. Most of those were file hashes and paths he got by running commands, which the judge can't see. A spot check found five of six hashes correct and one wrong.
+
+Full results are in [the round 1 report](benchmark/published/round1/report.md). The [verification record](docs/verification.md) shows what else has and hasn't been tested.
 
 ## Install
 

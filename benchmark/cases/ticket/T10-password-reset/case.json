@@ -1,0 +1,6 @@
+{
+  "id": "T10-password-reset",
+  "kind": "ticket",
+  "prompt": "Threat model the ticket in ticket.md and list the security controls engineering should build. Write your answer to threat-model.md in this folder.",
+  "paranoid_prompt": "/paranoid:paranoid-ticket ticket.md"
+}
