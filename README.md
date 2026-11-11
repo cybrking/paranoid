@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/paranoid.png" width="260" alt="paranoid, a pen and ink portrait of a security architect in glasses and a jacket, side eye, one eyebrow up, not buying it">
+</p>
+
 <h1 align="center">paranoid</h1>
 
 <p align="center">
