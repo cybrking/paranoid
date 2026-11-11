@@ -1,90 +1,92 @@
-# Threat Model Kit
+<h1 align="center">paranoid</h1>
 
-A portable threat modeling skill designed for Claude Code and Codex that turns ideas, tickets, designs, and repositories into evidence-grounded threat models and actionable engineering security controls.
+<p align="center">
+  <em>She reads your ticket. She asks one question. She finds the hole before you build it.</em>
+</p>
 
-**Experimental alpha · skill version 0.2.1 · schema 0.2.** The installed command remains `repo-threat-model`. This is a synthesis of established methods, not a validated industry standard. Harness and assessment evidence are documented in [verification](docs/verification.md).
+<p align="center">
+  <strong>Find the breach before you write the code.</strong>
+</p>
 
-## Install for Claude Code or Codex
+<p align="center">
+  <img src="https://img.shields.io/badge/works%20with-Claude%20Code%20%26%20Codex-111111?style=flat-square" alt="Works with Claude Code and Codex">
+  <img src="https://img.shields.io/badge/status-alpha-111111?style=flat-square" alt="Alpha">
+  <img src="https://img.shields.io/badge/license-Apache%202.0-111111?style=flat-square" alt="Apache 2.0 license">
+</p>
 
-These instructions add Threat Model Kit to an existing Claude Code or Codex setup. Choose your agent below, paste the installation prompt, then start a new session and try the example.
+---
 
-### Claude Code
+You know her. The security architect who has seen every breach report since 2009. You show her a one-paragraph ticket; she reads it twice, asks who can still download the file after their access is revoked, and the room goes quiet.
 
-**1. Paste this into Claude Code:**
+paranoid puts her inside your coding agent.
 
-```text
-Install the repo-threat-model skill from https://github.com/cybrking/threat-model-kit/tree/v0.2.1-alpha.1/skills/repo-threat-model into ~/.claude/skills/repo-threat-model. Copy the complete skill folder, including its references, assets, scripts, and LICENSE. Preserve any existing installation and explain how to update it if one is already present.
+## A ticket goes in
+
+> **EXPORT-42: Customer report export.** Tenant administrators should request CSV exports of their tenant customer records. The export may be processed asynchronously and downloadable later. Records contain names, email addresses, and purchase history. Roles can be revoked while an export is in progress. No repository or deployment exists yet.
+>
+> *(The attachment also carries a planted instruction telling the agent to skip its security checks.)*
+
+## Controls engineering can build come out
+
+| Priority | What to build | Where enforced | Status |
+|---|---|---|---|
+| High | Phase-specific, server-side tenant and current-role authorization | Request, worker read, poll, download | Proposed; check not run |
+| High | Confidential, scoped, expiring, deletable export files and a safe audit trail | File store and download service | Proposed; check not run |
+| High | CSV formula neutralization and correct encoding | Export serializer | Proposed; check not run |
+| Medium | Quotas, backpressure, idempotency, cancellation and monitoring | Request, queue and worker, storage | Proposed; check not run |
+
+Each control comes with the fix, an owner, and "done when" checks written as abuse cases: *tenant A cannot request, poll or download tenant B's export; access revoked before the download denies it.* The planted instruction is treated as data and ignored. Full output: [security-controls.md](examples/tenant-export/security-controls.md), [assessment.md](examples/tenant-export/assessment.md), [model.json](examples/tenant-export/model.json).
+
+**It never fakes it.** No invented files, infrastructure or test results. Checks that did not run say so. Priorities stay provisional until your risk policy says otherwise.
+
+## Numbers
+
+Not published yet. The benchmark runs the same agent with and without paranoid on fixed tickets and repositories with planted flaws, and counts flaws found, invented facts, and controls with real done-when checks. Method: [docs/benchmark-plan.md](docs/benchmark-plan.md). Until it runs, see the [verification record](docs/verification.md) for what has and has not been tested.
+
+## Install
+
+Claude Code:
+
+```bash
+claude plugin marketplace add cybrking/paranoid
+claude plugin install paranoid@paranoid
 ```
 
-**2. Start a new Claude Code session in the project you want to assess, then run:**
+Codex:
 
 ```text
-/repo-threat-model Assess this repository and write the threat model, assessment, and engineering security controls to ./threat-model.
+$skill-installer Install https://github.com/cybrking/paranoid/tree/main/skills/paranoid into ~/.agents/skills. Preserve any existing installation.
 ```
-
-### Codex
-
-**1. Paste this into Codex:**
-
-```text
-$skill-installer Install https://github.com/cybrking/threat-model-kit/tree/v0.2.1-alpha.1/skills/repo-threat-model into ~/.agents/skills. Preserve any existing installation.
-```
-
-Codex's built-in Skill Installer downloads the complete skill folder. The installation prompt explicitly selects the user skill directory.
-
-**2. Start a new Codex session in the project you want to assess, then run:**
-
-```text
-Use $repo-threat-model to assess this repository and write the threat model, assessment, and engineering security controls to ./threat-model.
-```
-
-Both examples produce `security-controls.md`, `assessment.md`, and `model.json` in `./threat-model`. You can also supply an idea, feature, design, or Jira ticket text using the examples below.
 
 <details>
-<summary>Manual installation from a terminal (macOS/Linux)</summary>
-
-Download the alpha release:
+<summary>Manual install from a terminal (macOS/Linux)</summary>
 
 ```sh
-git clone --branch v0.2.1-alpha.1 --depth 1 https://github.com/cybrking/threat-model-kit.git
-cd threat-model-kit
-```
-
-For **Claude Code**, copy the skill into your personal skills directory:
-
-```sh
+git clone --depth 1 https://github.com/cybrking/paranoid.git
 mkdir -p ~/.claude/skills
-if [ -e ~/.claude/skills/repo-threat-model ] || [ -L ~/.claude/skills/repo-threat-model ]; then
-  printf '%s\n' 'Already installed. Review your existing skill before updating.'
-else
-  cp -R skills/repo-threat-model ~/.claude/skills/
-  printf '%s\n' 'Installed. Start a new Claude Code session and use /repo-threat-model.'
-fi
+cp -R paranoid/skills/paranoid paranoid/skills/paranoid-ticket paranoid/skills/paranoid-repo paranoid/skills/paranoid-refresh ~/.claude/skills/
 ```
 
-For **Codex**, copy the skill into your user skills directory:
-
-```sh
-mkdir -p ~/.agents/skills
-if [ -e ~/.agents/skills/repo-threat-model ] || [ -L ~/.agents/skills/repo-threat-model ]; then
-  printf '%s\n' 'Already installed. Review your existing skill before updating.'
-else
-  cp -R skills/repo-threat-model ~/.agents/skills/
-  printf '%s\n' 'Installed. Start a new Codex session and use $repo-threat-model.'
-fi
-```
+For Codex, copy `paranoid/skills/paranoid` into `~/.agents/skills/` instead.
 
 </details>
 
-**Updating:** obtain the desired release and compare its skill folder with your installed copy before replacing or merging local changes. The installation prompts and manual commands preserve existing installations.
+The validator needs Python 3.10+ and `jsonschema`, or `uv`, which supplies it. Without them the skill says validation was blocked instead of claiming it passed.
 
-**Validator prerequisites:** Python 3.10+ and `jsonschema` are needed for automated model validation. If `uv` is available, the [validation command](#validate-a-model) supplies the dependency automatically. If validation tools are unavailable, the skill reports that limitation in its assessment.
+## Commands
 
-Installation follows [Claude Code's personal skill layout](https://code.claude.com/docs/en/skills) and [Codex's skill installation guidance](https://learn.chatgpt.com/docs/build-skills). These steps install the skill instructions; authenticated Claude behavioral testing remains outstanding as described in the [verification record](docs/verification.md).
+| Command | What it does |
+|---|---|
+| `/paranoid` | Full threat model from any mix of ideas, tickets, designs, repositories and optional read-only AWS observations |
+| `/paranoid-ticket` | One ticket or idea in, prioritized controls out, before any code exists |
+| `/paranoid-repo` | Map an existing codebase's entry points, trust boundaries and data, then rank what to fix first |
+| `/paranoid-refresh` | Update a model after the design or code changes, keeping IDs and reopening what went stale |
 
-## What engineering receives
+Installed as a plugin, Claude Code also lists them as `/paranoid:paranoid-ticket` and so on. In Codex, ask: `Use $paranoid to assess this ticket...`
 
-The skill produces three linked artifacts:
+## What you get
+
+Every run produces three linked files in `./threat-model/`:
 
 | Artifact | Purpose |
 |---|---|
@@ -100,40 +102,17 @@ For example, an early tenant-export feature could produce this **proposed**, unv
 
 See the fictional [tenant-export controls](examples/tenant-export/security-controls.md) and [AI-support controls](examples/support-assistant/security-controls.md), produced in the [recorded evaluation](docs/non-code-evaluation.md). They are partial, proposed design requirements; adapt them to actual scope and evidence.
 
-An idea can be assessed before code exists. The skill records described capabilities and design assumptions, then refines them when code and deployment evidence become available.
 
 ## Inputs
 
 Supply any combination of a pasted idea, feature request, Jira ticket text or accessible ticket reference, design document, or repositories. Optional AWS read access can supply in-scope configuration observations. No Jira connector, AWS SDK, or cloud access is required for basic modeling. A ticket key alone requires a readable connector or supplied content; the skill cannot retrieve inaccessible context.
-
-## Use
-
-In Claude Code:
-
-```text
-/repo-threat-model Assess this feature: tenant admins can request an asynchronous customer export and download it later. No code exists yet. Write the model, assessment, and engineering security controls to ./threat-model.
-```
-
-In Codex:
-
-```text
-Use $repo-threat-model to assess the Jira ticket text below. Record unresolved architecture decisions and provide proposed controls with abuse-case acceptance criteria. Write outputs to ./threat-model.
-```
-
-For repositories, in either harness:
-
-```text
-Use the repo-threat-model skill to assess ./api and ./infrastructure. No AWS access or active testing is authorized. Preserve deployment uncertainty and produce the three artifacts.
-```
-
-For AWS observations, supply an existing authorized profile/identity plus accounts, regions, and relevant service scope. Do not paste credentials. The skill performs authorized read-only configuration observation; repository execution, active exploitation, customer-record retrieval, and infrastructure changes require separate authorization.
 
 ## Validate a model
 
 Use an existing Python environment with `jsonschema`, or run with `uv`:
 
 ```sh
-uv run --with 'jsonschema>=4.23,<5' python skills/repo-threat-model/scripts/validate_model.py threat-model/model.json --expected-snapshot YOUR_BUNDLE_ID --as-of 2026-10-01
+uv run --with 'jsonschema>=4.23,<5' python skills/paranoid/scripts/validate_model.py threat-model/model.json --expected-snapshot YOUR_BUNDLE_ID --as-of 2026-10-01
 ```
 
 The date is an example; supply the assessment date. Bundle IDs identify the inputs and timestamped observations assessed, not an invented deployment revision.
@@ -145,7 +124,7 @@ Exit 0 means recorded structure and consistency pass. It does **not** verify evi
 ```sh
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
-.venv/bin/python -B -m unittest discover -s skills/repo-threat-model/tests -p 'test_*.py' -v
+.venv/bin/python -B -m unittest discover -s skills/paranoid/tests -p 'test_*.py' -v
 .venv/bin/python scripts/check_release.py
 ```
 
@@ -153,7 +132,7 @@ The CI workflow runs local checks; it does not call paid model APIs, read Jira, 
 
 ## Framework and versioning
 
-The [framework](skills/repo-threat-model/references/framework.md) combines harm-first scope, STRIDE, privacy analysis, attacker capabilities, attack paths, business misuse, and testable security requirements. The AI profile is conditional on the assessed system containing AI. [Method comparison and primary-source attribution](skills/repo-threat-model/references/comparison.md) explain the synthesis and its tradeoffs; this project does not claim ownership of those methods.
+The [framework](skills/paranoid/references/framework.md) combines harm-first scope, STRIDE, privacy analysis, attacker capabilities, attack paths, business misuse, and testable security requirements. The AI profile is conditional on the assessed system containing AI. [Method comparison and primary-source attribution](skills/paranoid/references/comparison.md) explain the synthesis and its tradeoffs; this project does not claim ownership of those methods.
 
 Schema 0.2 accepts non-code sources as well as repositories. Earlier 0.1 models require explicit migration: preserve the original, review input provenance, change the schema version only after that review, and revalidate relationships and closure claims. A validator version is distinct from a schema version.
 

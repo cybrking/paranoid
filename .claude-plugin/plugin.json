@@ -1,0 +1,13 @@
+{
+  "name": "paranoid",
+  "version": "0.3.0",
+  "description": "The paranoid security architect for your coding agent. Turns ideas, tickets, designs and repositories into evidence-backed threat models and security controls engineering can build.",
+  "author": {
+    "name": "cybrking",
+    "url": "https://github.com/cybrking"
+  },
+  "homepage": "https://github.com/cybrking/paranoid",
+  "repository": "https://github.com/cybrking/paranoid",
+  "license": "Apache-2.0",
+  "keywords": ["security", "threat-modeling", "appsec", "stride", "linddun", "security-controls", "secure-by-design"]
+}
