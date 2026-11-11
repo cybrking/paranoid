@@ -1,0 +1,16 @@
+{
+  "name": "paranoid",
+  "description": "The paranoid security architect for your coding agent",
+  "owner": {
+    "name": "cybrking",
+    "url": "https://github.com/cybrking"
+  },
+  "plugins": [
+    {
+      "name": "paranoid",
+      "source": "./",
+      "description": "Find the breach before you write the code: evidence-backed threat models and buildable security controls from ideas, tickets, designs and repositories.",
+      "category": "security"
+    }
+  ]
+}

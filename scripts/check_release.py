@@ -17,7 +17,7 @@ def main():
     parser.add_argument("--require-license", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
-    skill = root / "skills" / "repo-threat-model"
+    skill = root / "skills" / "paranoid"
     errors = []
     entry = (skill / "SKILL.md").read_text()
     metadata = yaml.safe_load(entry.split("---", 2)[1])

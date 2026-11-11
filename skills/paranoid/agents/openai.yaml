@@ -1,0 +1,4 @@
+interface:
+  display_name: "Threat Model and Security Controls"
+  short_description: "Assess ideas, Jira tickets, designs, repos, and AWS"
+  default_prompt: "Use $paranoid to assess the supplied idea, feature, Jira ticket, design, or repositories. Incorporate authorized AWS evidence if available and produce a model, assessment, and actionable engineering security controls."

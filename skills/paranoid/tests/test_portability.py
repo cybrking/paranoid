@@ -16,11 +16,11 @@ class ArchivePortabilityTests(unittest.TestCase):
             with ZipFile(archive, "w", ZIP_DEFLATED) as bundle:
                 for item in source.rglob("*"):
                     if item.is_file() and "__pycache__" not in item.parts:
-                        bundle.write(item, Path("repo-threat-model") / item.relative_to(source))
+                        bundle.write(item, Path("paranoid") / item.relative_to(source))
             with ZipFile(archive) as bundle:
                 self.assertIsNone(bundle.testzip())
                 bundle.extractall(root / "install with spaces")
-            installed = root / "install with spaces" / "repo-threat-model"
+            installed = root / "install with spaces" / "paranoid"
             fixture = installed / "assets" / "example.json"
             model = json.loads(fixture.read_text())
             model["scope"].update(repositories=[], sources=[{

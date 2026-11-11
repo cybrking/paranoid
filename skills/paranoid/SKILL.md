@@ -1,5 +1,5 @@
 ---
-name: repo-threat-model
+name: paranoid
 license: Apache-2.0
 description: Build, review, or update an evidence-backed threat model from repositories, Jira tickets, features, early ideas, or designs, optionally using scoped AWS read access. Use for architectural threats, trust boundaries, attack paths, and control validation; ordinary code review and vulnerability scanning alone are different tasks.
 metadata:

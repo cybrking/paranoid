@@ -19,5 +19,5 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -r requirements-dev.txt
-      - run: python -B -m unittest discover -s skills/repo-threat-model/tests -p 'test_*.py' -v
+      - run: python -B -m unittest discover -s skills/paranoid/tests -p 'test_*.py' -v
       - run: python scripts/check_release.py --require-license

@@ -1,3 +1,16 @@
+# paranoid 0.3.0 (rename and commands)
+
+Threat Model Kit is now **paranoid**. Repository: `cybrking/paranoid` (renamed from `threat-model-kit`; GitHub redirects old links).
+
+- The core skill folder and command are now `skills/paranoid` and `/paranoid` (previously `repo-threat-model`). The threat modeling workflow, references, schema 0.2 and validator 0.2.1 are unchanged.
+- New commands: `/paranoid-ticket`, `/paranoid-repo` and `/paranoid-refresh`, each a thin entry point into the same workflow.
+- Installable as a Claude Code plugin: `claude plugin marketplace add cybrking/paranoid`.
+- Benchmark method published in [benchmark-plan.md](benchmark-plan.md); no benchmark results yet.
+
+The notes below describe the earlier Threat Model Kit alpha.
+
+---
+
 # Public alpha release
 
 Project: **Threat Model Kit**  
