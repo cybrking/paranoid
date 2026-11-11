@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="420" viewBox="0 0 880 420" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="880" height="420" rx="14" fill="#ffffff"/>
+  <text x="40" y="44" font-size="15" fill="#555">Same ticket, same agent. AUTH-77: "Sign in with company SSO"</text>
+
+  <rect x="40" y="66" width="390" height="314" rx="10" fill="#f3f4f6"/>
+  <text x="64" y="102" font-size="15" font-weight="600" fill="#555">WITHOUT PARANOID</text>
+  <text x="64" y="162" font-size="52" font-weight="700" fill="#6b7280">42</text>
+  <text x="140" y="148" font-size="16" fill="#374151">recommendations</text>
+  <text x="140" y="168" font-size="16" fill="#374151">in 2,600 words</text>
+  <text x="64" y="226" font-size="52" font-weight="700" fill="#6b7280">15</text>
+  <text x="140" y="212" font-size="16" fill="#374151">you can build</text>
+  <text x="140" y="232" font-size="16" fill="#374151">and test</text>
+  <line x1="64" y1="258" x2="406" y2="258" stroke="#d1d5db"/>
+  <text x="64" y="286" font-size="14" fill="#6b7280">What it tells you</text>
+  <text x="64" y="312" font-size="15" fill="#374151">"Do not link by email on its own."</text>
+  <text x="64" y="350" font-size="13" fill="#9ca3af">Right idea. No way to tell when it's done.</text>
+
+  <rect x="450" y="66" width="390" height="314" rx="10" fill="#111111"/>
+  <text x="474" y="102" font-size="15" font-weight="600" fill="#e5e7eb">WITH PARANOID</text>
+  <text x="474" y="162" font-size="52" font-weight="700" fill="#ffffff">7</text>
+  <text x="550" y="148" font-size="16" fill="#e5e7eb">fix specs, each with</text>
+  <text x="550" y="168" font-size="16" fill="#e5e7eb">where, owner and priority</text>
+  <text x="474" y="226" font-size="52" font-weight="700" fill="#ffffff">7</text>
+  <text x="550" y="212" font-size="16" fill="#e5e7eb">you can build</text>
+  <text x="550" y="232" font-size="16" fill="#e5e7eb">and test</text>
+  <line x1="474" y1="258" x2="816" y2="258" stroke="#374151"/>
+  <text x="474" y="286" font-size="14" fill="#9ca3af">Done when</text>
+  <text x="474" y="312" font-size="15" fill="#ffffff">Another workspace's IdP asserting your</text>
+  <text x="474" y="332" font-size="15" fill="#ffffff">email gets no session, no link, no data.</text>
+  <text x="474" y="360" font-size="13" fill="#9ca3af">A test your engineers can write today.</text>
+</svg>
