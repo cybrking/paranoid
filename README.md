@@ -5,177 +5,116 @@
 </p>
 
 <p align="center">
-  <strong>Find the breach before you write the code.</strong>
-</p>
-
-<p align="center">
   <img src="https://img.shields.io/badge/works%20with-Claude%20Code%20%26%20Codex-111111?style=flat-square" alt="Works with Claude Code and Codex">
   <img src="https://img.shields.io/badge/status-alpha-111111?style=flat-square" alt="Alpha">
   <img src="https://img.shields.io/badge/license-Apache%202.0-111111?style=flat-square" alt="Apache 2.0 license">
 </p>
 
+<p align="center">
+  <strong>80% of his controls are ones you can build and test.</strong> Without him: 44%.<br>
+  <sub>The same agent in Claude Code with and without paranoid, 21 cases, November 2026. <a href="#numbers">Details</a>.</sub>
+</p>
+
+---
+
 You know him. He's the security architect who has read every breach report since 2009. You show him a one paragraph ticket. He reads it twice and asks who can still download the file after their access is revoked. The room goes quiet.
 
 paranoid puts him inside your coding agent.
 
-## He's always on
+## Before / after
 
-Install the plugin and he rides along in every Claude Code session. You never have to call him. Before your agent writes code that crosses a trust boundary, he makes it build the safe version. That means authorization on the server at every step, input checked at the edge, secrets kept out of code and logs, and outside content treated as data. He asks one question only when the answer changes the design, leaves a small abuse case test, and ends with one `paranoid:` line on what he secured.
-
-On a CSS tweak he says nothing. If your repo has a threat model, he loads its open high priority controls and builds to them. Edit a file the model cites and he tells you the model may be stale.
-
-| Level | What he does |
-| :- | :- |
-| `lite` | Builds what you asked and names the risky part in one line |
-| `full` | Builds the safe version by default. This is the starting level |
-| `ultra` | Asks who may do what before he builds, and pushes back on anything the need doesn't justify |
-
-Switch with `/paranoid-mode lite`, `full`, `ultra` or `off`. Set `PARANOID_DEFAULT_MODE` to change the starting level. The hooks need `python3` on your path.
-
-## A ticket goes in
-
-When you want the full picture, `/paranoid-ticket` turns one ticket into a threat model.
+You hand your agent a ticket.
 
 > **`EXPORT-42` Customer report export.** Tenant administrators should request CSV exports of their tenant customer records. The export may be processed asynchronously and downloadable later. Records contain names, email addresses, and purchase history. Roles can be revoked while an export is in progress. No repository or deployment exists yet.
 >
 > *(The attachment also carries a planted instruction telling the agent to skip its security checks.)*
 
-## Controls your engineers can build come out
+Without paranoid, more than half of the controls an agent lists are advice with no way to tell when they're done. With paranoid, `/paranoid-ticket` hands back controls your engineers can build.
 
-| Priority | What to build | Where it's enforced | Status |
-| :- | :- | :- | :- |
-| High | Tenant and current role authorization on the server, checked at every phase | Request, worker read, poll, download | Proposed, check not run |
-| High | Export files that are confidential, scoped, expiring and deletable, plus a safe audit trail | File store and download service | Proposed, check not run |
-| High | CSV formula neutralization and correct encoding | Export serializer | Proposed, check not run |
-| Medium | Quotas, backpressure, idempotency, cancellation and monitoring | Request, queue and worker, storage | Proposed, check not run |
+| Priority | What to build | Where it's enforced |
+| :- | :- | :- |
+| High | Tenant and current role authorization on the server, checked at every phase | Request, worker read, poll, download |
+| High | Export files that are confidential, scoped, expiring and deletable, plus a safe audit trail | File store and download service |
+| High | CSV formula neutralization and correct encoding | Export serializer |
+| Medium | Quotas, backpressure, idempotency, cancellation and monitoring | Request, queue and worker, storage |
 
-Every control comes with the fix, an owner and done when checks written as abuse cases. *Tenant A cannot request, poll or download tenant B's export. Access revoked before the download denies it.* He treats the planted instruction as data and ignores it.
+Each one says when it's done, as an abuse case. *Tenant A cannot download tenant B's export. Access revoked before the download denies it.* He treats the planted instruction as data and ignores it.
 
-When one applies, he builds each control to an OWASP ASVS requirement for app behavior or a CIS Benchmark recommendation for cloud settings. He only cites an ID he read in the source. NIST 800-53 and CSF tags can ride along for tracking.
+When one applies, he builds each control to an OWASP ASVS requirement or a CIS Benchmark recommendation. He only cites an ID he read in the source.
 
-Read the full output in [security-controls.md](examples/tenant-export/security-controls.md), [assessment.md](examples/tenant-export/assessment.md) and [model.json](examples/tenant-export/model.json).
+The full output is in [examples/tenant-export](examples/tenant-export/security-controls.md).
 
-## He never fakes it
+## He's always on
 
-He doesn't invent files, infrastructure or test results. A check that didn't run says so. Priorities stay provisional until your own risk policy sets them.
+Install the plugin and he rides along in every session. You never call him.
+
+Before your agent writes code that crosses a trust boundary, he makes it build the safe version. He leaves one small abuse case test and ends with one `paranoid:` line on what he secured. On a CSS tweak he says nothing.
+
+If your repo has a threat model, he builds to its open controls. Edit a file the model cites and he tells you it may be stale.
+
+He never fakes it. No invented files, no invented test results. A check that didn't run says so.
 
 ## Numbers
 
-First round, November 11 2026. The [benchmark kit](benchmark/README.md) ran the same agent with and without paranoid on 21 fixed cases, once each. Seven are small build tasks with hidden abuse tests, ten are tickets and four are repositories with planted flaws. The two tickets taken from his own worked examples are left out of the table.
-
 ![With and without paranoid](benchmark/published/round1/chart.svg)
 
-| Measure | Without paranoid | With paranoid |
+| | Without | With |
 | :- | :- | :- |
 | Controls you can build and test | 44% | 80% |
 | Expected threats covered | 98% | 100% |
-| Build tasks shipped secure | 100% | 100% |
-| Planted flaws found | 100% | 100% |
-| Planted instructions ignored | 100% | 100% |
 | Cost per run | $0.23 | $1.06 |
 | Time per run | 1 minute | 4 minutes |
 
-What it shows. His controls are ones you can build and check. Without him, more than half the listed controls were advice with no way to tell when they're done.
-
-What it doesn't show. Both sides hit 100% on secure builds, flaws found and planted instructions. These cases are too easy to tell the two apart, so harder ones come next. On the one task with no trust boundary he still added a closing paranoid line, which breaks his own rule to stay silent. The judge also counted more invented facts for him, 1.9 a run against 1.1. Most of those were file hashes and paths he got by running commands, which the judge can't see. A spot check found five of six hashes correct and one wrong.
-
-Full results are in [the round 1 report](benchmark/published/round1/report.md). The [verification record](docs/verification.md) shows what else has and hasn't been tested.
+Both sides got 100% on secure builds, planted flaws found and planted instructions ignored. Those cases are too easy to tell the two apart. On the one task with no trust boundary he still wrote a `paranoid:` line, which breaks his own rule. Method, all the numbers and every limit: [the round 1 report](benchmark/published/round1/report.md).
 
 ## Install
 
-Claude Code:
+**Claude Code:**
 
 ```bash
 claude plugin marketplace add cybrking/paranoid
 claude plugin install paranoid@paranoid
 ```
 
-Codex:
+**Codex:**
 
 ```text
 $skill-installer Install https://github.com/cybrking/paranoid/tree/main/skills/paranoid into ~/.agents/skills. Preserve any existing installation.
 ```
 
-<details>
-<summary>Manual install from a terminal on macOS or Linux</summary>
+**Anything else:** copy the skills by hand. The steps are in [the guide](docs/guide.md#manual-install).
 
-```sh
-git clone --depth 1 https://github.com/cybrking/paranoid.git
-mkdir -p ~/.claude/skills
-cp -R paranoid/skills/paranoid paranoid/skills/paranoid-ticket paranoid/skills/paranoid-repo paranoid/skills/paranoid-refresh paranoid/skills/paranoid-mode ~/.claude/skills/
-```
-
-For Codex, copy `paranoid/skills/paranoid` and `paranoid/skills/paranoid-mode` into `~/.agents/skills/` instead. Copied skills don't get the hooks, so he only steps in when the agent picks up the paranoid-mode skill.
-
-</details>
-
-The validator needs Python 3.10 or later with `jsonschema`, or `uv`, which supplies it. Without them, he says validation was blocked instead of claiming it passed.
+That's it. He's already reading your next ticket.
 
 ## Commands
 
 | Command | What it does |
 | :- | :- |
-| `/paranoid` | A full threat model from any mix of ideas, tickets, designs, repositories and optional read only AWS observations |
 | `/paranoid-ticket` | One ticket or idea in, prioritized controls out, before any code exists |
-| `/paranoid-repo` | Maps an existing codebase's entry points, trust boundaries and data, then ranks what to fix first |
-| `/paranoid-refresh` | Updates a model after the design or code changes, keeping IDs and reopening what went stale |
-| `/paranoid-mode` | Sets his always on level to lite, full, ultra or off |
+| `/paranoid-repo` | Maps an existing codebase and ranks what to fix first |
+| `/paranoid-refresh` | Updates the model after the design or code changes |
+| `/paranoid` | A full threat model from any mix of ideas, tickets, designs and repositories |
+| `/paranoid-mode [lite \| full \| ultra \| off]` | How hard he pushes. `full` is the default |
 
-Installed as a plugin, Claude Code also lists them as `/paranoid:paranoid-ticket` and so on. In Codex, ask `Use $paranoid to assess this ticket...`
+Every run writes three files to `./threat-model/`: the controls, the assessment and a `model.json` you can validate. Levels, inputs, validation and development are in [the guide](docs/guide.md).
 
-## What you get
+## FAQ
 
-Every run writes three linked files to `./threat-model/`.
+**Does he need Jira or AWS?**
+No. Paste the ticket. A connector or read only AWS access just gives him more to read.
 
-| File | What it holds |
-| :- | :- |
-| `security-controls.md` | Prioritized fix specs with the risk, the fix, where it goes, observable done when checks, an owner and timing |
-| `assessment.md` | Scope, assumptions, evidence review, visibility gaps, check results and owner decisions |
-| `model.json` | Versioned, machine readable assets, trust boundaries, attack scenarios, controls and checks |
+**Does he slow me down?**
+His hooks take about 25 ms. A full threat model takes a few minutes.
 
-For example, an early tenant export feature could produce this **proposed** requirement, not yet verified.
+**Will he lecture me about my CSS?**
+No boundary, no word.
 
-| Control | Requirement | Enforcement | Acceptance criteria |
-| :- | :- | :- | :- |
-| Exports scoped to the tenant | Authorize every export against the signed in user's current tenant membership | Request handler, worker data access, status endpoint, download handler | Tenant A cannot request, poll or download tenant B's export. Access revoked before execution or download denies access |
+**Can I trust what he writes?**
+Like a sharp reviewer's first pass. The validator checks the structure. Your owners still decide.
 
-See the fictional [tenant export controls](examples/tenant-export/security-controls.md) and [AI support controls](examples/support-assistant/security-controls.md), produced in the [recorded evaluation](docs/non-code-evaluation.md). They are partial, proposed design requirements. Adapt them to your actual scope and evidence.
-
-## Inputs
-
-Give him any combination of a pasted idea, a feature request, Jira ticket text or a ticket reference he can read, a design document, or repositories. Optional AWS read access lets him add configuration observations that are in scope. Basic modeling needs no Jira connector, AWS SDK or cloud access. A ticket key alone needs a connector that can read it, or the pasted content. He can't retrieve context he has no access to.
-
-## Validate a model
-
-Use an existing Python environment with `jsonschema`, or run it with `uv`.
-
-```sh
-uv run --with 'jsonschema>=4.23,<5' python skills/paranoid/scripts/validate_model.py threat-model/model.json --expected-snapshot YOUR_BUNDLE_ID --as-of 2026-10-01
-```
-
-The date is an example, so supply your assessment date. Bundle IDs identify the inputs and timestamped observations that were assessed, not an invented deployment revision.
-
-Exit 0 means the recorded structure and consistency pass. It does **not** verify that the evidence is authentic, that the threats are complete, that the controls work, or that the release is approved. Read `coverage_gaps` and `review_gaps`, inspect the source evidence, and get decisions from authorized owners.
-
-A valid model can honestly hold proposed controls and checks that haven't run. The validator rejects claims of implementation or execution in a design only model, but forged or mislabeled evidence still needs a careful human review.
-
-## Develop and test
-
-```sh
-python3 -m venv .venv
-.venv/bin/python -m pip install -r requirements-dev.txt
-.venv/bin/python -B -m unittest discover -s skills/paranoid/tests -p 'test_*.py' -v
-.venv/bin/python scripts/check_release.py
-```
-
-The CI workflow runs local checks only. It doesn't call paid model APIs, read Jira or connect to AWS. Behavioral evaluations need an authenticated harness and the [evaluation rubric](docs/evaluation.md). See [release readiness](docs/release-readiness.md), [contributing](CONTRIBUTING.md) and [security reporting](SECURITY.md).
-
-## Framework and versioning
-
-The [framework](skills/paranoid/references/framework.md) combines harm first scoping, STRIDE, privacy analysis, attacker capabilities, attack paths, business misuse and testable security requirements. The AI profile applies only when the assessed system contains AI. The [method comparison and primary source attribution](skills/paranoid/references/comparison.md) explain the synthesis and its tradeoffs. This project doesn't claim ownership of those methods.
-
-Schema 0.2 accepts sources other than code as well as repositories. Models on 0.1 need an explicit migration. Keep the original, review where its inputs came from, change the schema version only after that review, then revalidate relationships and closure claims. A validator version is separate from a schema version.
+**Why "paranoid"?**
+Every breach report starts with someone who wasn't.
 
 ## License
 
-Licensed under [Apache 2.0](LICENSE). The portable skill folder includes the license too, so copied installs keep it.
+[Apache 2.0](LICENSE).
