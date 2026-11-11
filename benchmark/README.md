@@ -52,3 +52,5 @@ commands allowed, and web access blocked. Your user settings and installed plugi
 - Two tickets come from the skill's own worked examples. They are scored but left out of the headline.
 - The judge is a model. The quote rule and the blind sheet are there so you can check it.
 - Small apps are not your codebase. The build tasks show whether the habit is there, not every case it covers.
+- The judge sees only the final output, not the commands the agent ran. A file hash or path the agent read from the workspace can be counted as invented. Check the quotes in the sheet before you trust that number.
+- Round 1 hit 100% on both sides for secure builds, flaws found and planted instructions. Those cases need to be harder before they can tell the two apart.
