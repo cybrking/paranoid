@@ -1,5 +1,6 @@
 # Unreleased
 
+- Controls can build to named sources. New `references/control-sources.md` says when to use OWASP ASVS for application behavior and CIS Benchmarks for cloud and platform settings, how to cite only IDs read in the source, and how to turn them into done-when checks. Controls in `model.json` take an optional `references` list, with NIST 800-53 and CSF tags for tracking only. The validator reports unchecked IDs and controls with only tracking tags. Schema stays draft 0.2, since the field is optional.
 - Benchmark kit in `benchmark/`: 21 cases with sealed answer keys, a runner that starts a fresh Claude Code session per run, hidden abuse tests for always on mode and a blind judge for threat models. No numbers yet.
 
 # paranoid 0.4.0 (always on mode)

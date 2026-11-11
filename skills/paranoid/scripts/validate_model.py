@@ -163,6 +163,13 @@ def review_gaps(model, as_of):
             evidence[i]["kind"] in ("code", "config", "runtime", "test") for i in control["evidence_ids"]
         ):
             add(control["id"], "implementation_evidence", "Design/external context alone does not establish implementation.")
+        for ref in control.get("references", []):
+            if not ref["checked"]:
+                add(control["id"], "reference_unchecked",
+                    f"{ref['framework']} {ref['id']} was not read in the source; confirm the ID and version before relying on it.")
+        if control.get("references") and all(r["framework"] in ("nist-800-53", "nist-csf") for r in control["references"]):
+            add(control["id"], "reference_tracking_only",
+                "Only tracking tags are cited; add an ASVS requirement or CIS recommendation if one applies, or say none does.")
     for check in model["checks"]:
         if check["outcome"] in ("pass", "fail"):
             if not any(evidence[i]["kind"] in ("test", "runtime") for i in check["evidence_ids"]):
