@@ -1,3 +1,11 @@
+# paranoid 0.4.0 (always on mode)
+
+- New always on mode. Claude Code hooks load the new `paranoid-mode` rules into every session and every subagent. Before code crosses a trust boundary he builds the safe version, asks one question only when it changes the design, leaves an abuse case test and ends with a `paranoid:` line. He stays silent on changes with no security impact.
+- Levels `lite`, `full` and `ultra`, switched with `/paranoid-mode`, or `off`. `PARANOID_DEFAULT_MODE` sets the starting level.
+- If the repo has `threat-model/model.json`, its proposed controls for open critical or high priority threats load at session start, as project data rather than instructions.
+- Editing a file the model cites as code or config evidence brings one suggestion per session to run `/paranoid-refresh`.
+- The hooks are one standard library Python script and never block a session. 14 new tests cover them.
+
 # paranoid 0.3.0 (rename and commands)
 
 Threat Model Kit is now **paranoid**. Repository: `cybrking/paranoid` (renamed from `threat-model-kit`; GitHub redirects old links).

@@ -1,7 +1,7 @@
 {
   "name": "paranoid",
-  "version": "0.3.0",
-  "description": "The paranoid security architect for your coding agent. Turns ideas, tickets, designs and repositories into evidence-backed threat models and security controls engineering can build.",
+  "version": "0.4.0",
+  "description": "The paranoid security architect for your coding agent. Always on mode that builds the safe version at every trust boundary, plus evidence-backed threat models and security controls engineering can build.",
   "author": {
     "name": "cybrking",
     "url": "https://github.com/cybrking"
@@ -9,5 +9,14 @@
   "homepage": "https://github.com/cybrking/paranoid",
   "repository": "https://github.com/cybrking/paranoid",
   "license": "Apache-2.0",
-  "keywords": ["security", "threat-modeling", "appsec", "stride", "linddun", "security-controls", "secure-by-design"]
+  "hooks": "./hooks/claude-hooks.json",
+  "keywords": [
+    "security",
+    "threat-modeling",
+    "appsec",
+    "stride",
+    "linddun",
+    "security-controls",
+    "secure-by-design"
+  ]
 }
