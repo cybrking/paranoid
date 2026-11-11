@@ -1,5 +1,6 @@
 # Unreleased
 
+- Always on mode states plainly that a change with no trust boundary gets no `paranoid:` line at all. Round 1 of the benchmark caught him writing "paranoid: no trust boundary here" on a formatting task. Not measured again yet.
 - Benchmark kit in `benchmark/`: 21 cases with sealed answer keys, a runner that starts a fresh Claude Code session per run, hidden abuse tests for always on mode and a blind judge for threat models. No numbers yet.
 
 # paranoid 0.4.0 (always on mode)

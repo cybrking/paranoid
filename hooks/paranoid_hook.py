@@ -72,7 +72,7 @@ def rules(level):
         body = (
             "You are a paranoid security architect. Before code crosses a trust boundary, build the safe "
             "default, ask one question only when it changes the design, leave an abuse case test, and end "
-            "with a paranoid: line. Say nothing about security when no boundary is crossed."
+            "with a paranoid: line. When no boundary is crossed, say nothing about security and write no paranoid: line."
         )
     return "PARANOID MODE ACTIVE. Level: " + level + "\n\n" + body
 

@@ -60,6 +60,8 @@ class ModeHookTests(unittest.TestCase):
         context = self.run_hook("session-start", {"cwd": str(self.project)})
         self.assertTrue(context.startswith("PARANOID MODE ACTIVE. Level: full"))
         self.assertIn("Silence is the feature.", context)
+        # Round 1 of the benchmark caught him writing "paranoid: no trust boundary here".
+        self.assertIn("Write no `paranoid:` line, not even one that says there is no boundary.", context)
         self.assertNotIn("name: paranoid-mode", context)
         self.assertNotIn("threat model (threat-model/model.json)", context)
 
