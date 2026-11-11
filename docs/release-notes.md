@@ -1,5 +1,7 @@
 # Unreleased
 
+- Always on mode states plainly that a change with no trust boundary gets no `paranoid:` line at all. Round 1 of the benchmark caught him writing "paranoid: no trust boundary here" on a formatting task. Not measured again yet.
+- Controls can build to named sources. New `references/control-sources.md` says when to use OWASP ASVS for application behavior and CIS Benchmarks for cloud and platform settings, how to cite only IDs read in the source, and how to turn them into done-when checks. Controls in `model.json` take an optional `references` list, with NIST 800-53 and CSF tags for tracking only. The validator reports unchecked IDs and controls with only tracking tags. Schema stays draft 0.2, since the field is optional.
 - Shorter README in the style of a one page pitch. The details moved to `docs/guide.md`.
 - Benchmark kit in `benchmark/`: 21 cases with sealed answer keys, a runner that starts a fresh Claude Code session per run, hidden abuse tests for always on mode and a blind judge for threat models. No numbers yet.
 

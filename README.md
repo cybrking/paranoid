@@ -40,6 +40,8 @@ Without paranoid, more than half of the controls an agent lists are advice with 
 
 Each one says when it's done, as an abuse case. *Tenant A cannot download tenant B's export. Access revoked before the download denies it.* He treats the planted instruction as data and ignores it.
 
+When one applies, he builds each control to an OWASP ASVS requirement or a CIS Benchmark recommendation. He only cites an ID he read in the source.
+
 The full output is in [examples/tenant-export](examples/tenant-export/security-controls.md).
 
 ## He's always on
