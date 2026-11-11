@@ -18,7 +18,23 @@ You know him. He's the security architect who has read every breach report since
 
 paranoid puts him inside your coding agent.
 
+## He's always on
+
+Install the plugin and he rides along in every Claude Code session. You never have to call him. Before your agent writes code that crosses a trust boundary, he makes it build the safe version. That means authorization on the server at every step, input checked at the edge, secrets kept out of code and logs, and outside content treated as data. He asks one question only when the answer changes the design, leaves a small abuse case test, and ends with one `paranoid:` line on what he secured.
+
+On a CSS tweak he says nothing. If your repo has a threat model, he loads its open high priority controls and builds to them. Edit a file the model cites and he tells you the model may be stale.
+
+| Level | What he does |
+| :- | :- |
+| `lite` | Builds what you asked and names the risky part in one line |
+| `full` | Builds the safe version by default. This is the starting level |
+| `ultra` | Asks who may do what before he builds, and pushes back on anything the need doesn't justify |
+
+Switch with `/paranoid-mode lite`, `full`, `ultra` or `off`. Set `PARANOID_DEFAULT_MODE` to change the starting level. The hooks need `python3` on your path.
+
 ## A ticket goes in
+
+When you want the full picture, `/paranoid-ticket` turns one ticket into a threat model.
 
 > **`EXPORT-42` Customer report export.** Tenant administrators should request CSV exports of their tenant customer records. The export may be processed asynchronously and downloadable later. Records contain names, email addresses, and purchase history. Roles can be revoked while an export is in progress. No repository or deployment exists yet.
 >
@@ -66,10 +82,10 @@ $skill-installer Install https://github.com/cybrking/paranoid/tree/main/skills/p
 ```sh
 git clone --depth 1 https://github.com/cybrking/paranoid.git
 mkdir -p ~/.claude/skills
-cp -R paranoid/skills/paranoid paranoid/skills/paranoid-ticket paranoid/skills/paranoid-repo paranoid/skills/paranoid-refresh ~/.claude/skills/
+cp -R paranoid/skills/paranoid paranoid/skills/paranoid-ticket paranoid/skills/paranoid-repo paranoid/skills/paranoid-refresh paranoid/skills/paranoid-mode ~/.claude/skills/
 ```
 
-For Codex, copy `paranoid/skills/paranoid` into `~/.agents/skills/` instead.
+For Codex, copy `paranoid/skills/paranoid` and `paranoid/skills/paranoid-mode` into `~/.agents/skills/` instead. Copied skills don't get the hooks, so he only steps in when the agent picks up the paranoid-mode skill.
 
 </details>
 
@@ -83,6 +99,7 @@ The validator needs Python 3.10 or later with `jsonschema`, or `uv`, which suppl
 | `/paranoid-ticket` | One ticket or idea in, prioritized controls out, before any code exists |
 | `/paranoid-repo` | Maps an existing codebase's entry points, trust boundaries and data, then ranks what to fix first |
 | `/paranoid-refresh` | Updates a model after the design or code changes, keeping IDs and reopening what went stale |
+| `/paranoid-mode` | Sets his always on level to lite, full, ultra or off |
 
 Installed as a plugin, Claude Code also lists them as `/paranoid:paranoid-ticket` and so on. In Codex, ask `Use $paranoid to assess this ticket...`
 

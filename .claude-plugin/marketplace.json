@@ -9,7 +9,7 @@
     {
       "name": "paranoid",
       "source": "./",
-      "description": "Find the breach before you write the code: evidence-backed threat models and buildable security controls from ideas, tickets, designs and repositories.",
+      "description": "The paranoid security architect for your coding agent. Always on, he builds the safe version at every trust boundary, and on demand he turns tickets, designs and repositories into threat models and controls engineering can build.",
       "category": "security"
     }
   ]
