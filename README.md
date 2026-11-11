@@ -16,7 +16,7 @@
 
 <p align="center">
   <strong>80% of his controls come with a test that proves they're done.</strong> Without him: 44%.<br>
-  <sub>The same agent in Claude Code with and without paranoid, 21 cases, November 2026. <a href="#numbers">Details</a>.</sub>
+  <sub>The same agent in Claude Code with and without paranoid, 12 tickets and repos, November 2026. <a href="#numbers">Details</a>.</sub>
 </p>
 
 ---
@@ -33,11 +33,7 @@ paranoid puts him inside your coding agent.
 
 The ticket says to link SSO users to existing accounts by email. Both runs spot the account takeover. Without paranoid you get 42 recommendations, and only 15 come with a way to prove they're done. With paranoid you get 7 fix specs. Each one says where it goes, who owns it and the test that proves it works.
 
-Across all 12 tickets and repos in round 1, the averages say the same. Without him, 26 recommendations a run and 44% you can build and test. With him, 10 a run and 80%. Both found nearly every expected threat.
-
-When one applies, he builds each control to an OWASP ASVS requirement or a CIS Benchmark recommendation. He only cites an ID he read in the source.
-
-Read [the ticket](benchmark/published/round1/auth-77/ticket.md), [the run without him](benchmark/published/round1/auth-77/without-paranoid.md) and [the run with him](benchmark/published/round1/auth-77/with-paranoid.md).
+See [the ticket and both runs](benchmark/published/round1/auth-77/).
 
 ## He's always on
 
@@ -51,16 +47,13 @@ He never fakes it. No invented files, no invented test results. A check that did
 
 ## Numbers
 
-![With and without paranoid](benchmark/published/round1/chart.svg)
-
 | | Without | With |
 | :- | :- | :- |
 | Controls you can build and test | 44% | 80% |
-| Expected threats covered | 98% | 100% |
 | Cost per run | $0.23 | $1.06 |
 | Time per run | 1 minute | 4 minutes |
 
-Both sides got 100% on secure builds, planted flaws found and planted instructions ignored. Those cases are too easy to tell the two apart. On the one task with no trust boundary he still wrote a `paranoid:` line, which breaks his own rule. The fix is in, and one rerun of that task stayed quiet. Method, all the numbers and every limit: [the round 1 report](benchmark/published/round1/report.md).
+Method, all the numbers and every limit: [the round 1 report](benchmark/published/round1/report.md).
 
 ## Install
 
