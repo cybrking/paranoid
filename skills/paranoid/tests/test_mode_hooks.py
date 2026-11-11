@@ -182,6 +182,20 @@ class ModeHookTests(unittest.TestCase):
         payload["session_id"] = "other"
         self.assertIsNotNone(self.run_hook("post-edit", payload))
 
+    def test_cited_file_matches_when_locator_has_extra_detail(self):
+        # Real models write locators like these, with line lists and hashes after the path.
+        for locator in ("src/export.py:7,21 (sha256 cfdb2426...)",
+                        "./src/export.py:10-12 (sha256:f54a96dc887d)",
+                        "src/export.py:11-13,27-34; src/other.py:2",
+                        "src/export.py#L12"):
+            model = json.loads(EXAMPLE_MODEL.read_text())
+            model["evidence"].append({"id": "E-CODE-9", "kind": "code", "locator": locator,
+                                      "snapshot": "s", "observation": "Export handler"})
+            self.add_model(model)
+            payload = {"cwd": str(self.project), "session_id": "s-" + str(abs(hash(locator))),
+                       "tool_input": {"file_path": str(self.project / "src" / "export.py")}}
+            self.assertIn("E-CODE-9", self.run_hook("post-edit", payload) or "", locator)
+
     def test_editing_uncited_file_is_silent(self):
         self.add_model(self.evidence_model())
         payload = {
