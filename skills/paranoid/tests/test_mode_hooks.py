@@ -1,4 +1,5 @@
 import json
+import re
 import os
 from pathlib import Path
 import shutil
@@ -122,6 +123,42 @@ class ModeHookTests(unittest.TestCase):
         (target / "model.json").write_text("{not json")
         context = self.run_hook("session-start", {"cwd": str(self.project)})
         self.assertNotIn("Open high priority controls", context)
+
+    def test_malformed_model_keeps_the_rules(self):
+        for broken in (
+            {"controls": None, "threats": []},
+            {"controls": [], "threats": None},
+            {"controls": [{"id": "C1"}], "threats": [{"status": "confirmed", "risk": None, "control_ids": ["C1"]}]},
+            {"controls": [{"id": "C1"}], "threats": [{"status": "confirmed", "risk": {"priority": "high"}, "control_ids": None}]},
+            {"controls": [{"id": ["x"]}], "threats": [{"status": "confirmed", "risk": {"priority": "high"}, "control_ids": [["x"]]}]},
+        ):
+            self.add_model(broken)
+            context = self.run_hook("session-start", {"cwd": str(self.project)})
+            self.assertIsNotNone(context, broken)
+            self.assertTrue(context.startswith("PARANOID MODE ACTIVE"), broken)
+            self.assertIsNotNone(self.run_hook("subagent-start", {"cwd": str(self.project)}), broken)
+
+    def test_shared_control_ranks_by_its_highest_threat(self):
+        controls = [{"id": "C%d" % i, "status": "proposed", "requirement": "r%d" % i} for i in range(9)]
+        threats = [
+            {"id": "T-HIGH", "title": "high one", "status": "confirmed",
+             "risk": {"priority": "high"}, "control_ids": ["C%d" % i for i in range(9)]},
+            {"id": "T-CRIT", "title": "critical one", "status": "confirmed",
+             "risk": {"priority": "critical"}, "control_ids": ["C8"]},
+        ]
+        self.add_model({"controls": controls, "threats": threats})
+        context = self.run_hook("session-start", {"cwd": str(self.project)})
+        lines = [l for l in context.splitlines() if re.match(r"- C\d ", l)]
+        self.assertEqual(len(lines), 8)
+        self.assertTrue(lines[0].startswith("- C8 (critical, answers critical one)"), lines[0])
+
+    def test_malformed_evidence_is_silent_on_edit(self):
+        self.add_model({"controls": [], "threats": [], "evidence": None})
+        payload = {
+            "cwd": str(self.project), "session_id": "abc",
+            "tool_input": {"file_path": str(self.project / "src" / "export.py")},
+        }
+        self.assertIsNone(self.run_hook("post-edit", payload))
 
     def evidence_model(self):
         model = json.loads(EXAMPLE_MODEL.read_text())
