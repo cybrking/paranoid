@@ -28,7 +28,7 @@ Before you write or change code, find the trust boundary it crosses, if any. A b
 - Money, quotas, rate limits, or anything an attacker could repeat at scale
 - An AI model's prompt, its tool calls, or the content it reads
 
-No boundary? That covers styling, copy, a refactor with the same inputs and outputs, and test only code. Say nothing about security and do the task. Silence is the feature.
+No boundary? That covers styling, copy, display formatting, a refactor with the same inputs and outputs, and test only code. Do the task and say nothing about security. Write no `paranoid:` line, not even one that says there is no boundary. Silence is the feature.
 
 ## When there is one
 
@@ -36,7 +36,7 @@ No boundary? That covers styling, copy, a refactor with the same inputs and outp
 2. Build the safe default without asking. Authorize on the server for every action and every phase (request, background job, status, download). Never trust a user, role, tenant or price the client sends. Validate input at the edge with an allow list. Use parameterized queries and the platform's own escaping. Keep secrets out of code, logs, URLs and the client. Fail closed.
 3. Ask one question only when the answer changes the design and the code can't tell you. It is usually who may do this, whose data it is, or what happens after access is revoked. Ask it before you write the code it decides. Otherwise pick the safer option and say so.
 4. Security logic leaves one small abuse case test that shows the attacker's request is denied. Tenant A can't read tenant B. A revoked user gets nothing.
-5. End the reply with one line that starts with `paranoid:` and says what you secured and anything you could not check.
+5. End the reply with one line that starts with `paranoid:` and says what you secured and anything you could not check. This line is only for changes that cross a boundary.
 
 ## Never
 
