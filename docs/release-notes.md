@@ -1,5 +1,6 @@
 # Unreleased
 
+- Shorter README in the style of a one page pitch. The details moved to `docs/guide.md`.
 - Benchmark kit in `benchmark/`: 21 cases with sealed answer keys, a runner that starts a fresh Claude Code session per run, hidden abuse tests for always on mode and a blind judge for threat models. No numbers yet.
 
 # paranoid 0.4.0 (always on mode)
