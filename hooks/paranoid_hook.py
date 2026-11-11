@@ -149,8 +149,11 @@ def evidence_paths(model):
     for item in as_list(model.get("evidence")):
         if not isinstance(item, dict) or item.get("kind") not in ("code", "config"):
             continue
-        locator = str(item.get("locator", "")).split("#", 1)[0]
-        locator = re.sub(r":\d+(?:-\d+)?$", "", locator).strip()
+        locator = str(item.get("locator", "")).split("#", 1)[0].strip()
+        # Keep the leading path. Models often add line lists or hashes after it,
+        # like "app/x.py:7,21 (sha256 ab12...)".
+        locator = locator.split(None, 1)[0] if locator else ""
+        locator = re.sub(r":[\d,\-]+$", "", locator.rstrip(";,."))
         while locator.startswith("./"):
             locator = locator[2:]
         if locator:
