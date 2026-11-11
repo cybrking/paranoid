@@ -850,6 +850,46 @@
         "owner": {
           "type": "string",
           "minLength": 1
+        },
+        "references": {
+          "description": "Optional sources the control builds to or is tracked against. See references/control-sources.md.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "framework": {
+                "enum": [
+                  "owasp-asvs",
+                  "cis-benchmark",
+                  "nist-800-53",
+                  "nist-csf",
+                  "other"
+                ]
+              },
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1
+              },
+              "checked": {
+                "type": "boolean",
+                "description": "True only when this ID was read in the source during the assessment."
+              },
+              "note": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "framework",
+              "id",
+              "checked"
+            ],
+            "additionalProperties": false
+          }
         }
       },
       "required": [

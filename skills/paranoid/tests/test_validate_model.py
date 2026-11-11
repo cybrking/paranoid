@@ -41,6 +41,33 @@ class ValidationTests(unittest.TestCase):
                 mutate(model)
                 self.assertTrue(validate(model))
 
+    def test_control_references(self):
+        model = copy.deepcopy(self.model)
+        model["controls"][0]["references"] = [
+            {"framework": "owasp-asvs", "id": "X.1.1", "version": "test", "checked": True},
+            {"framework": "nist-800-53", "id": "AC-3", "checked": True, "note": "tracking only"},
+        ]
+        self.assertEqual(validate(model), [])
+        codes = {g["code"] for g in review_gaps(model, date(2026, 1, 1))}
+        self.assertNotIn("reference_unchecked", codes)
+        self.assertNotIn("reference_tracking_only", codes)
+
+        unchecked = copy.deepcopy(model)
+        unchecked["controls"][0]["references"][0]["checked"] = False
+        self.assertIn("reference_unchecked", {g["code"] for g in review_gaps(unchecked, date(2026, 1, 1))})
+
+        tracking = copy.deepcopy(model)
+        tracking["controls"][0]["references"] = tracking["controls"][0]["references"][1:]
+        self.assertIn("reference_tracking_only", {g["code"] for g in review_gaps(tracking, date(2026, 1, 1))})
+
+        for bad in ({"framework": "iso", "id": "A.5", "checked": True},
+                    {"framework": "owasp-asvs", "id": "X.1.1"},
+                    {"framework": "owasp-asvs", "id": "X.1.1", "checked": True, "url": "x"}):
+            with self.subTest(bad=bad):
+                broken = copy.deepcopy(model)
+                broken["controls"][0]["references"] = [bad]
+                self.assertTrue(validate(broken))
+
     def test_non_code_inputs_without_repositories(self):
         for kind in ["ticket", "feature", "idea", "design"]:
             with self.subTest(kind=kind):

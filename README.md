@@ -51,6 +51,8 @@ When you want the full picture, `/paranoid-ticket` turns one ticket into a threa
 
 Every control comes with the fix, an owner and done when checks written as abuse cases. *Tenant A cannot request, poll or download tenant B's export. Access revoked before the download denies it.* He treats the planted instruction as data and ignores it.
 
+When one applies, he builds each control to an OWASP ASVS requirement for app behavior or a CIS Benchmark recommendation for cloud settings. He only cites an ID he read in the source. NIST 800-53 and CSF tags can ride along for tracking.
+
 Read the full output in [security-controls.md](examples/tenant-export/security-controls.md), [assessment.md](examples/tenant-export/assessment.md) and [model.json](examples/tenant-export/model.json).
 
 ## He never fakes it

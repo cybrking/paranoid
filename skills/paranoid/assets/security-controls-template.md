@@ -22,7 +22,8 @@ One spec per fix. A spec an engineer or agent can run as written, about 90 words
 - **Done when:** <two to four observable checks, including at least one abuse or negative case. No "follow best practices">
 - **Owner and timing:** <role or owner needed. before implementation / before release / now / optional hardening>
 - **Blocked by:** <only if something truly blocks it. Omit otherwise>
-- **Refs:** <threat IDs, control ID, check ID>
+- **Builds to:** <ASVS requirement or CIS recommendation with version, as read in the source. "Not checked" when you could not read it. Omit when no source applies>
+- **Refs:** <threat IDs, control ID, check ID. Optional 800-53 or CSF tags for tracking>
 
 Rules:
 - One risk per spec. If a control covers two, split it or fix the risk sentence.
@@ -30,3 +31,4 @@ Rules:
 - Early design specs stay proposed until implementation and checks provide evidence. Never mark a threat mitigated because a spec exists.
 - Keep specs no more specific about the exploit than an implementer needs. Detail beyond that stays in the assessment.
 - Keep IDs and statuses consistent with model.json.
+- A cited source never stands in for done-when checks. Turn it into this system's observable behavior and an abuse case.
