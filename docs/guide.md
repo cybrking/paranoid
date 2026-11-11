@@ -10,6 +10,8 @@ Give him any combination of a pasted idea, a feature request, Jira ticket text o
 
 Every run writes three linked files to `./threat-model/`.
 
+When one applies, he builds each control to an OWASP ASVS requirement or a CIS Benchmark recommendation. He only cites an ID he read in the source.
+
 | File | What it holds |
 | :- | :- |
 | `security-controls.md` | Prioritized fix specs with the risk, the fix, where it goes, observable done when checks, an owner and timing |

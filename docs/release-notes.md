@@ -1,5 +1,6 @@
 # Unreleased
 
+- README trimmed to what a user needs. The results chart, the benchmark notes under the numbers and a repeated averages paragraph are gone. The ASVS and CIS note moved to the guide.
 - paranoid has a face. A pen and ink portrait sits at the top of the README, in `assets/paranoid.png`.
 - README before/after now shows a real round 1 pair, AUTH-77 with and without paranoid, and both outputs are published under `benchmark/published/round1/auth-77/`.
 - Always on mode states plainly that a change with no trust boundary gets no `paranoid:` line at all. Round 1 of the benchmark caught him writing "paranoid: no trust boundary here" on a formatting task. One rerun of the no boundary task after the fix stayed quiet, for $0.17.
