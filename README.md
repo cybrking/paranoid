@@ -60,7 +60,7 @@ He never fakes it. No invented files, no invented test results. A check that did
 | Cost per run | $0.23 | $1.06 |
 | Time per run | 1 minute | 4 minutes |
 
-Both sides got 100% on secure builds, planted flaws found and planted instructions ignored. Those cases are too easy to tell the two apart. On the one task with no trust boundary he still wrote a `paranoid:` line, which breaks his own rule. Method, all the numbers and every limit: [the round 1 report](benchmark/published/round1/report.md).
+Both sides got 100% on secure builds, planted flaws found and planted instructions ignored. Those cases are too easy to tell the two apart. On the one task with no trust boundary he still wrote a `paranoid:` line, which breaks his own rule. The fix is in, and one rerun of that task stayed quiet. Method, all the numbers and every limit: [the round 1 report](benchmark/published/round1/report.md).
 
 ## Install
 
