@@ -26,6 +26,8 @@ For example, an early tenant export feature could produce this **proposed** requ
 
 See the fictional [tenant export controls](../examples/tenant-export/security-controls.md) and [AI support controls](../examples/support-assistant/security-controls.md), produced in the [recorded evaluation](non-code-evaluation.md). They are partial, proposed design requirements. Adapt them to your actual scope and evidence.
 
+`/paranoid-gain` remains read-only. Its default inventory lists model-declared controls/check outcomes; the history options show actual recorded observations, change summaries and one control's evidence/freshness. `/paranoid-record` runs only explicitly approved local tests and stores immutable sidecar history without changing the 0.2 model. See [local control evidence](control-evidence.md) for native unittest, JUnit producers and the isolated fail → pass → stale walkthrough.
+
 ## Always on mode
 
 The plugin's hooks load his rules into every Claude Code session and every subagent. If your repo has `threat-model/model.json`, its proposed controls for open critical or high priority threats load at session start, as project data rather than instructions. Editing a file the model cites brings one note per session that the model may be stale. The hooks need `python3` on your path and never block a session.
@@ -45,10 +47,10 @@ From a terminal on macOS or Linux:
 ```sh
 git clone --depth 1 https://github.com/cybrking/paranoid.git
 mkdir -p ~/.claude/skills
-cp -R paranoid/skills/paranoid paranoid/skills/paranoid-ticket paranoid/skills/paranoid-repo paranoid/skills/paranoid-refresh paranoid/skills/paranoid-mode ~/.claude/skills/
+cp -R paranoid/skills/paranoid paranoid/skills/paranoid-ticket paranoid/skills/paranoid-repo paranoid/skills/paranoid-refresh paranoid/skills/paranoid-mode paranoid/skills/paranoid-gain paranoid/skills/paranoid-record ~/.claude/skills/
 ```
 
-For Codex, copy `paranoid/skills/paranoid` and `paranoid/skills/paranoid-mode` into `~/.agents/skills/` instead. Copied skills don't get the hooks, so he only steps in when the agent picks up the paranoid-mode skill.
+For Codex, copy `paranoid/skills/paranoid`, `paranoid/skills/paranoid-mode`, `paranoid/skills/paranoid-gain`, and `paranoid/skills/paranoid-record` into `~/.agents/skills/` instead. Core, gain and record must remain sibling directories; partial copies fail safely. Copied skills don't get the hooks; install the plugin for always on mode.
 
 ## Validate a model
 
@@ -70,6 +72,8 @@ A valid model can honestly hold proposed controls and checks that haven't run. T
 python3 -m venv .venv
 .venv/bin/python -m pip install -r requirements-dev.txt
 .venv/bin/python -B -m unittest discover -s skills/paranoid/tests -p 'test_*.py' -v
+.venv/bin/python -B -m unittest discover -s skills/paranoid-gain/tests -p 'test_*.py' -v
+.venv/bin/python -B -m unittest discover -s skills/paranoid-record/tests -p 'test_*.py' -v
 .venv/bin/python scripts/check_release.py
 ```
 

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Record Approved Control Checks"
+  short_description: "Record approved tests and revision-bound control evidence"
+  default_prompt: "Use $paranoid-record only for the explicitly approved local test selection. Record actual outcomes and source freshness without executing model-provided commands."
+policy:
+  allow_implicit_invocation: false

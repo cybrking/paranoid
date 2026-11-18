@@ -7,10 +7,15 @@ permissions:
   contents: read
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    name: validate (${{ matrix.python-version }}${{ matrix.os == 'macos-latest' && ', macOS' || '' }})
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         python-version: ['3.10', '3.14']
+        os: [ubuntu-latest]
+        include:
+          - os: macos-latest
+            python-version: '3.14'
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -19,7 +24,73 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - run: python -m pip install -r requirements-dev.txt
-      - run: python -B -m unittest discover -s skills/paranoid/tests -p 'test_*.py' -v
+      - name: Collect and run core, gain and recorder tests
+        run: |
+          python -B - <<'PY'
+          import unittest
+          suites = unittest.TestSuite()
+          for directory in ('skills/paranoid/tests', 'skills/paranoid-gain/tests', 'skills/paranoid-record/tests'):
+              suite = unittest.TestLoader().discover(directory, pattern='test_*.py')
+              if suite.countTestCases() == 0:
+                  raise SystemExit('No tests collected: ' + directory)
+              suites.addTests(suite)
+          result = unittest.TextTestRunner(verbosity=2).run(suites)
+          raise SystemExit(not result.wasSuccessful())
+          PY
       - run: python scripts/check_release.py --require-license
       - run: python -B benchmark/check_keys.py
       - run: python -B -m unittest discover -s benchmark/tests -p 'test_*.py' -v
+  gradle-producer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PARANOID_REQUIRE_GRADLE: '1'
+      PARANOID_GRADLE: ${{ runner.temp }}/gradle-9.9.1/bin/gradle
+      GRADLE_USER_HOME: ${{ runner.temp }}/paranoid-gradle-cache
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '21.0.13+9'
+      - run: python -m pip install -r requirements-dev.txt
+      - name: Install checksum-pinned Gradle into runner temporary storage
+        run: |
+          python - <<'PY'
+          import hashlib
+          import os
+          from pathlib import Path
+          import urllib.request
+          import zipfile
+          root = Path(os.environ['RUNNER_TEMP'])
+          archive = root / 'gradle-9.9.1.zip'
+          checksum = hashlib.sha256()
+          size = 0
+          with urllib.request.urlopen('https://services.gradle.org/distributions/gradle-9.9.1-bin.zip', timeout=60) as response, archive.open('xb') as output:
+              while chunk := response.read(1024 * 1024):
+                  size += len(chunk)
+                  if size > 500 * 1024 * 1024:
+                      raise SystemExit('Gradle archive exceeds size budget')
+                  checksum.update(chunk)
+                  output.write(chunk)
+          if checksum.hexdigest() != 'd8a18a7a841dd5df825d35a685fad6f2d7f12ac0c280e57b67c27b4a520ba228':
+              raise SystemExit('Gradle checksum mismatch')
+          with zipfile.ZipFile(archive) as bundle:
+              bundle.extractall(root)
+          (root / 'gradle-9.9.1/bin/gradle').chmod(0o700)
+          PY
+      - name: Require the real Gradle producer integration
+        run: |
+          python -B - <<'PY'
+          import unittest
+          suite = unittest.TestLoader().discover('skills/paranoid-record/tests', pattern='test_gradle_producer.py')
+          if suite.countTestCases() == 0:
+              raise SystemExit('No Gradle producer tests collected')
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          raise SystemExit(not result.wasSuccessful())
+          PY

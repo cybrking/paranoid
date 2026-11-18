@@ -1,5 +1,9 @@
 # Verification record
 
+The 2026-11-18 isolated control-evidence PR candidate collected 83 core/gain/recorder tests locally: 82 passed and the Gradle case explicitly skipped pending its required hosted job. Its 10 baseline benchmark tests, 21 case keys and package gate passed. See the [implementation record](control-evidence-verification.md) for exact scope, earlier real-producer checks, regression evidence and unverified harness paths; the PR note records current hosted results.
+
+The record below describes the earlier threat-model skill alpha.
+
 Date: 2026-10-01. Public alpha: skill 0.2.1 / schema 0.2. Local automated tests ran with Python 3.14.7. GitHub CI passed on Python 3.10 and 3.14 for the initial source commit `e9c02f3`.
 
 The package is experimental. Results distinguish validator mechanics from harness behavior and security effectiveness.

@@ -83,8 +83,10 @@ That's it. He's already reading your next ticket.
 | `/paranoid-refresh` | Updates the model after the design or code changes |
 | `/paranoid` | A full threat model from any mix of ideas, tickets, designs and repositories |
 | `/paranoid-mode [lite \| full \| ultra \| off]` | How hard he pushes. `full` is the default |
+| `/paranoid-gain` (`$paranoid:paranoid-gain` in Codex) | Read-only control inventory, history/change summary and focused control view |
+| `/paranoid-record` (`$paranoid:paranoid-record` in Codex) | Explicitly run approved local tests and retain revision-bound check observations |
 
-Every run writes three files to `./threat-model/`: the controls, the assessment and a `model.json` you can validate. Levels, inputs, validation and development are in [the guide](docs/guide.md).
+A full threat-model assessment writes three files to `./threat-model/`: the controls, the assessment and a `model.json` you can validate. Levels, inputs, validation and development are in [the guide](docs/guide.md). For actual fail → pass → stale recording, see [local control evidence](docs/control-evidence.md). Recording is manual; a model-written pass or a readable report is not execution proof or security assurance.
 
 ## FAQ
 

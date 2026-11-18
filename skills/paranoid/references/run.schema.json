@@ -1,0 +1,442 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Paranoid local run bundle v1",
+  "type": "object",
+  "properties": {
+    "format_version": {
+      "const": 1
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "lineage": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "parent": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "recorded_at": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "model_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "model_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inputs": {
+      "type": "object",
+      "properties": {
+        "model_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "scope": {
+          "type": "object",
+          "properties": {
+            "includes": {
+              "type": "array",
+              "maxItems": 100000,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "uniqueItems": true
+            },
+            "excludes": {
+              "type": "array",
+              "maxItems": 100000,
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "uniqueItems": true
+            }
+          },
+          "required": [
+            "includes",
+            "excludes"
+          ],
+          "additionalProperties": false
+        },
+        "files": {
+          "type": "object",
+          "maxProperties": 10000,
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "git": {
+          "type": "object",
+          "properties": {
+            "head": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^(?:[a-f0-9]{40}|[a-f0-9]{64})$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "dirty": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "head",
+            "dirty"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "model_digest",
+        "scope",
+        "files",
+        "digest",
+        "git"
+      ],
+      "additionalProperties": false
+    },
+    "definitions": {
+      "type": "object",
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "snapshot": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "controls": {
+          "type": "object",
+          "maxProperties": 10000,
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "requirement": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "status": {
+                "enum": [
+                  "proposed",
+                  "implemented"
+                ]
+              },
+              "check_ids": {
+                "type": "array",
+                "maxItems": 100000,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4096
+                },
+                "uniqueItems": true
+              },
+              "revision": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "requirement",
+              "status",
+              "check_ids",
+              "revision"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "checks": {
+          "type": "object",
+          "maxProperties": 10000,
+          "propertyNames": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "control_id": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "procedure": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "expected": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 4096
+              },
+              "revision": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "control_id",
+              "procedure",
+              "expected",
+              "revision"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "model_id",
+        "snapshot",
+        "controls",
+        "checks"
+      ],
+      "additionalProperties": false
+    },
+    "latest": {
+      "type": "object",
+      "maxProperties": 10000,
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4096
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "outcome": {
+            "enum": [
+              "pass",
+              "fail",
+              "blocked"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "pattern": "^[a-z_]{1,128}$"
+          },
+          "counts": {
+            "type": "object",
+            "properties": {
+              "run": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              },
+              "passed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              },
+              "failed": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              },
+              "errors": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              },
+              "skipped": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100000
+              }
+            },
+            "required": [
+              "run",
+              "passed",
+              "failed",
+              "errors",
+              "skipped"
+            ],
+            "additionalProperties": false
+          },
+          "test_ids": {
+            "type": "array",
+            "maxItems": 100000,
+            "items": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "uniqueItems": true
+          },
+          "run_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{32}$"
+          },
+          "observed_at": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "check_revision": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "model_digest": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "input_digest": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "outcome",
+          "reason",
+          "counts",
+          "test_ids",
+          "run_id",
+          "observed_at",
+          "check_revision",
+          "model_digest",
+          "input_digest"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "properties": {
+        "adapter": {
+          "enum": [
+            "unittest",
+            "junit"
+          ]
+        },
+        "exit_code": {
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "termination": {
+          "enum": [
+            "completed",
+            "timeout",
+            "output_limit",
+            "interrupted",
+            "launch_failed",
+            "invalid_result"
+          ]
+        },
+        "duration": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 600
+        },
+        "check_ids": {
+          "type": "array",
+          "maxItems": 100000,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "adapter",
+        "exit_code",
+        "termination",
+        "duration",
+        "check_ids"
+      ],
+      "additionalProperties": false
+    },
+    "parent_digest": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "format_version",
+    "run_id",
+    "lineage",
+    "parent",
+    "recorded_at",
+    "model_id",
+    "model_digest",
+    "inputs",
+    "definitions",
+    "latest",
+    "attempt",
+    "parent_digest"
+  ],
+  "additionalProperties": false
+}
