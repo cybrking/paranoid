@@ -1,5 +1,15 @@
 # Release readiness
 
+## Local control-evidence implementation — 2026-11-18
+
+The approved local control history, explicit unittest/JUnit recorder, read-only comparison/control views and fail → pass → stale walkthrough are implemented. Model schema 0.2 remains unchanged; execution history uses sidecar format 1. The shared workflow collects core/gain/record tests on Linux Python 3.10/3.14 and macOS 3.14, with a separate checksum-pinned real Gradle producer job.
+
+The isolated PR candidate collected 84 shared tests locally: 83 passed and the real Gradle case explicitly skipped pending its required hosted job. All 10 baseline benchmark tests, 21 case keys and the license/package gate passed. Earlier implementation checks also exercised the real Gradle producer on Python 3.10 and 3.14 in the original working tree. The [verification record](control-evidence-verification.md) separates those observations from this branch's exact checks. No new runtime dependency was introduced.
+
+Publication and hosted checks are tracked in the PR verification note. Fresh authenticated harness behavior, independent real-project outcomes and production assurance remain open. The historical record below retains its original scope; it does not clear these gates.
+
+## Historical release record
+
 Approved project name: **Threat Model Kit**. Approved GitHub repository: **threat-model-kit**. Keep the portable installed command `repo-threat-model` for compatibility. The descriptive name received a limited collision search; the selected GitHub destination was checked before creation; trademark clearance is not established.
 
 Before public alpha publication:

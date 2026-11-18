@@ -12,3 +12,5 @@ Refresh an existing threat model with the `paranoid` skill.
 2. Read the existing model (from `$ARGUMENTS`, or `./threat-model/model.json`) and its assessment. Identify what changed since its snapshot: the new ticket text, design or repository revisions.
 3. Preserve stable IDs and prior owner decisions. Reopen every assumption, evidence item, check and decision the change affects; do not carry a passed check forward if its target changed.
 4. Validate, then rewrite the three artifacts in place only once the new result is ready. Lead your reply with what changed: new or reopened threats and controls, and closed items with the evidence that closed them.
+
+Recorded executions live in additive `threat-model/history/` sidecars. Do not rewrite, delete, relabel or carry their passes forward during refresh. A gain history read recomputes applicability against the changed model/source; rerunning an affected check requires a separate explicit `/paranoid-record` invocation. The refresh itself does not authorize test execution.

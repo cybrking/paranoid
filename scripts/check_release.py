@@ -12,13 +12,38 @@ from jsonschema import Draft202012Validator
 import yaml
 
 
+def check_history_package(root):
+    required = (
+        'paranoid/scripts/control_history.py', 'paranoid/references/run.schema.json',
+        'paranoid-gain/scripts/control_inventory.py', 'paranoid-record/SKILL.md',
+        'paranoid-record/agents/openai.yaml', 'paranoid-record/scripts/record_check.py',
+        'paranoid-record/scripts/result_adapters.py', 'paranoid-record/scripts/unittest_runner.py',
+    )
+    errors = [f'Missing history component: skills/{name}' for name in required
+              if not (root / 'skills' / name).is_file()]
+    if errors:
+        return errors
+    record = root / 'skills/paranoid-record'
+    metadata = yaml.safe_load((record / 'SKILL.md').read_text().split('---', 2)[1])
+    agent = yaml.safe_load((record / 'agents/openai.yaml').read_text())
+    if metadata.get('name') != 'paranoid-record' or metadata.get('disable-model-invocation') is not True:
+        errors.append('Recording skill must require explicit invocation')
+    if agent.get('policy', {}).get('allow_implicit_invocation') is not False:
+        errors.append('Recording agent must disable implicit invocation')
+    interface = agent.get('interface', {})
+    if '$paranoid-record' not in interface.get('default_prompt', '') or not 25 <= len(interface.get('short_description', '')) <= 64:
+        errors.append('Recording agent interface is invalid')
+    Draft202012Validator.check_schema(json.loads((root / 'skills/paranoid/references/run.schema.json').read_text()))
+    return errors
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--require-license", action="store_true")
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     skill = root / "skills" / "paranoid"
-    errors = []
+    errors = check_history_package(root)
     entry = (skill / "SKILL.md").read_text()
     metadata = yaml.safe_load(entry.split("---", 2)[1])
     if metadata.get("name") != skill.name or not metadata.get("description"):

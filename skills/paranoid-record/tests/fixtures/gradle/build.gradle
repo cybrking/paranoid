@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'junit:junit:4.13.2'
+}
+
+tasks.register('prepareTests') {
+    doLast {
+        configurations.testRuntimeClasspath.files
+    }
+}
+
+test {
+    useJUnit()
+    reports.junitXml.outputLocation = file(findProperty('paranoidReportDir') ?: layout.buildDirectory.dir('test-results/test').get().asFile)
+    reports.html.required = false
+}
