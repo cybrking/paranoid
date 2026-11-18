@@ -42,6 +42,8 @@ def read_bytes(path):
 
 
 def parse_reports(directory):
+    if directory.is_symlink():
+        raise HistoryError('result_symlink')
     cases = {}
     size = 0
     count = 0

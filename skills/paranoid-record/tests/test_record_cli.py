@@ -100,3 +100,18 @@ class RecordCLITests(unittest.TestCase):
                                    '{report_dir}/bad.xml', str(outside))
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(data['checks']['CHK1']['outcome'], 'blocked')
+
+    def test_report_directory_symlink_cannot_reuse_old_passing_results(self):
+        (self.root / 'mapping.json').write_text(json.dumps({'CHK1': [['s', 'C', 'test']]}))
+        old = self.root / 'old-reports'
+        old.mkdir()
+        report = old / 'old.xml'
+        xml = '<testsuite name="s"><testcase classname="C" name="test"/></testsuite>'
+        report.write_text(xml)
+        result, data = self.invoke('--adapter', 'junit', '--', sys.executable, '-c',
+                                   'from pathlib import Path; import sys; p=Path(sys.argv[1]); '
+                                   'p.rmdir(); p.symlink_to(sys.argv[2], target_is_directory=True)',
+                                   '{report_dir}', str(old))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual(data['checks']['CHK1']['outcome'], 'blocked')
+        self.assertEqual(report.read_text(), xml)

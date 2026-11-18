@@ -1,6 +1,6 @@
 # Verification record
 
-The 2026-11-18 isolated control-evidence PR candidate collected 83 core/gain/recorder tests locally: 82 passed and the Gradle case explicitly skipped pending its required hosted job. Its 10 baseline benchmark tests, 21 case keys and package gate passed. See the [implementation record](control-evidence-verification.md) for exact scope, earlier real-producer checks, regression evidence and unverified harness paths; the PR note records current hosted results.
+The 2026-11-18 isolated control-evidence PR candidate collected 84 core/gain/recorder tests locally: 83 passed and the Gradle case explicitly skipped pending its required hosted job. Its 10 baseline benchmark tests, 21 case keys and package gate passed. See the [implementation record](control-evidence-verification.md) for exact scope, earlier real-producer checks, regression evidence and unverified harness paths; the PR note records current hosted results.
 
 The record below describes the earlier threat-model skill alpha.
 

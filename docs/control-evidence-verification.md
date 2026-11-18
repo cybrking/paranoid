@@ -4,11 +4,13 @@ The PR branch `codex/control-evidence-history` is isolated from unrelated local 
 
 ## Isolated PR candidate checks
 
-On macOS Python 3.14.10 / Expat 2.7.4, the exact PR candidate collected 59 core, 1 gain and 23 recorder tests: 83 total, 82 passed and one explicit local Gradle skip, in 8.272 seconds. Native/pytest producers, the repeated walkthrough, publication regressions and extracted-package checks passed. The unchanged baseline benchmark suite passed all 10 tests, all 21 case keys passed, and the license/package gate plus `git diff --check` passed. The shared workflow provides a dedicated required Gradle job; hosted results and tested head/merge SHAs are recorded in the PR verification note after publication.
+On macOS Python 3.14.10 / Expat 2.7.4, the exact PR candidate collected 59 core, 1 gain and 24 recorder tests: 84 total, 83 passed and one explicit local Gradle skip. Native/pytest producers, the repeated walkthrough, publication regressions and extracted-package checks passed. The unchanged baseline benchmark suite passed all 10 tests, all 21 case keys passed, and the license/package gate plus `git diff --check` passed. The shared workflow provides a dedicated required Gradle job; hosted results and tested head/merge SHAs are recorded in the PR verification note after publication.
 
-Two unrelated hook tests and twelve unrelated Codex benchmark tests from the earlier working tree are deliberately absent from this branch. That explains the lower counts relative to the initial implementation checks below; none of the control-evidence regressions were omitted.
+Two unrelated hook tests and twelve unrelated Codex benchmark tests from the earlier working tree are deliberately absent from this branch. That explains the lower counts relative to the initial implementation checks below; none of the control-evidence regressions were omitted. The PR review then added one more recorder regression for a symlinked report-directory root.
 
 The initial hosted attempt rejected `runner.temp` expressions in job-level environment declarations before starting any jobs. Local `actionlint .github/workflows/validate.yml` reproduced both context errors. Moving the two tool/cache paths to the Gradle test step's environment fixed those diagnostics; actionlint and the package gate then passed. No test, parser or resource-limit check was weakened.
+
+The automated PR review identified a fresh-report bypass when a producer replaced the report-directory root with a symlink to old passing XML. The new real-child CLI regression first reproduced exit 0, then passed after the parser rejected the root symlink before traversal. All six recorder CLI tests passed; the full shared suite and hosted final-commit checks cover the added regression.
 
 ## Initial implementation checks
 
