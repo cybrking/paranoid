@@ -8,6 +8,8 @@ On macOS Python 3.14.10 / Expat 2.7.4, the exact PR candidate collected 59 core,
 
 Two unrelated hook tests and twelve unrelated Codex benchmark tests from the earlier working tree are deliberately absent from this branch. That explains the lower counts relative to the initial implementation checks below; none of the control-evidence regressions were omitted.
 
+The initial hosted attempt rejected `runner.temp` expressions in job-level environment declarations before starting any jobs. Local `actionlint .github/workflows/validate.yml` reproduced both context errors. Moving the two tool/cache paths to the Gradle test step's environment fixed those diagnostics; actionlint and the package gate then passed. No test, parser or resource-limit check was weakened.
+
 ## Initial implementation checks
 
 The following results were observed before PR isolation in the original dirty working tree. They verify the implemented code and prepared producer tools, but are not exact PR-commit or hosted evidence. In particular, the isolated Codex install below included pre-existing local plugin manifests absent from this PR.

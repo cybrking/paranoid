@@ -45,8 +45,6 @@ jobs:
     timeout-minutes: 15
     env:
       PARANOID_REQUIRE_GRADLE: '1'
-      PARANOID_GRADLE: ${{ runner.temp }}/gradle-9.9.1/bin/gradle
-      GRADLE_USER_HOME: ${{ runner.temp }}/paranoid-gradle-cache
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -85,6 +83,9 @@ jobs:
           (root / 'gradle-9.9.1/bin/gradle').chmod(0o700)
           PY
       - name: Require the real Gradle producer integration
+        env:
+          PARANOID_GRADLE: ${{ runner.temp }}/gradle-9.9.1/bin/gradle
+          GRADLE_USER_HOME: ${{ runner.temp }}/paranoid-gradle-cache
         run: |
           python -B - <<'PY'
           import unittest
